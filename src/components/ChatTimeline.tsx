@@ -113,7 +113,7 @@ export default function ChatTimeline({ events, selectedId, onSelect }: Props) {
       {/* メッセージリスト */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-y-auto scrollbar-thin px-2 py-2 flex flex-col justify-end"
+        className="flex-1 overflow-y-auto scrollbar-thin px-2 py-2"
       >
         <div className="flex flex-col">
           {events.slice(0, visibleCount).map((event) => (
