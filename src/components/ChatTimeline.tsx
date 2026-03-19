@@ -68,15 +68,20 @@ function ChatMessage({
     );
   }
 
-  // 通常チャット風
+  // 通常カード風
   return (
     <div
-      className={`chat-message-enter cursor-pointer px-3 py-1.5 rounded hover:bg-white/5 transition-colors mb-0.5 ${isSelected ? 'bg-white/10' : ''}`}
+      className={`chat-message-enter cursor-pointer rounded-lg border border-white/20 overflow-hidden mb-2 transition-opacity ${isSelected ? 'opacity-100 ring-2 ring-white/40' : 'opacity-90 hover:opacity-100'}`}
       style={{ animationDelay: `${delay}ms` }}
       onClick={onClick}
     >
-      <span className="text-xs text-gray-400 mr-2">{event.date}</span>
-      <span className="text-sm text-gray-200">{event.title}</span>
+      <div className="bg-white/10 px-3 py-1.5 flex items-center justify-between">
+        <span className="text-xs font-bold text-white">📦 {event.date}</span>
+      </div>
+      <div className="bg-white/5 px-3 py-2">
+        <p className="text-sm font-bold text-white leading-snug">{event.title}</p>
+        <p className="text-xs text-white/60 mt-0.5">{event.shortDesc}</p>
+      </div>
     </div>
   );
 }
