@@ -8,6 +8,7 @@ export interface ProjectEvent {
   superchat: SuperchatLevel;
   tech: string[];
   description: string;
+  images?: string[];
   links?: { label: string; url: string }[];
 }
 
@@ -18,9 +19,13 @@ export const events: ProjectEvent[] = [
     title: 'Vアバター作成・動画編集・動画投稿',
     shortDesc: 'Vtuber活動スタート。アバター・編集・投稿まで一人で',
     superchat: 'none',
-    tech: ['3DCG', '動画編集'],
+    tech: ['Live2D', '動画編集'],
     description:
-      '高校2年生のときにVアバターを自作し、動画編集・投稿までを一人でこなしました。\nここからクリエイティブな制作活動が始まります。',
+      '高校2年生のときにVアバターをLive2D Cubismで自作し、動画編集・投稿までを一人でこなしました。\nここからクリエイティブな制作活動が始まります。',
+    images: [
+      '/images/v-avatar-2022-channel.png',
+      '/images/v-avatar-2022-live2d.png',
+    ],
     links: [
       { label: 'YouTubeチャンネル', url: 'https://youtube.com/@sika_v4084?si=nVI8bqBDgpvDRSSe' },
       { label: '動画を見る', url: 'https://youtu.be/dZQJZmHSyzY?si=Ce8TuK-pNO0Co0X-' },
@@ -29,13 +34,15 @@ export const events: ProjectEvent[] = [
   {
     id: 'v-avatar-2024',
     date: '2024年3月（短大1年）',
-    title: 'Vアバター作成（試作）',
+    title: 'Vアバター作成し、文化祭で公開',
     shortDesc: '短大入学後に新たなVアバターを試作',
     superchat: 'none',
     tech: ['3DCG'],
     description:
-      '短大1年生のタイミングで新しいVアバターの試作を行いました。\n前回の制作経験を活かしてクオリティアップを図りました。',
-    links: [],
+      '短大1年生のタイミングで新しいVアバターの試作を行いました。\n輪郭のないキャラクターデザインで作成しました。',
+    links: [
+      { label: '動画を見る', url: 'https://youtu.be/cEnmhuKg3ls' },
+    ],
   },
   {
     id: 'unreal-game-2024',
@@ -111,6 +118,17 @@ export const events: ProjectEvent[] = [
     ],
   },
   {
+    id: 'project-exercise-2025',
+    date: '2025年9月〜2026年1月（大学3年）',
+    title: 'プロジェクト型演習・チーム開発',
+    shortDesc: '6人チームで日記×AI状態数値化アプリを開発。React担当',
+    superchat: 'blue',
+    tech: ['React', 'TypeScript', 'Backlog'],
+    description:
+      '大学の「プロジェクト型演習」という講義でチーム開発を行いました。\n\n【制作物】\n日記型のアプリで、投稿した内容に沿ってAIが現在の自分の状態を数値化して記録するアプリです。\n\n6人でチームを組み、私はフロントエンドを担当。\nReactでホーム画面のステータス表示機能・グラフ機能・ステータスの値をバックエンドに送る部分を実装しました。\n\nまた、発表用ポスターは構成からデザインまで私が作成しました。\n\nこの講義ではタスクをBacklogで管理しており、実際の業務に近い形でタスクの進捗管理・報告を行いました。',
+    links: [],
+  },
+  {
     id: 'giikuten-2025',
     date: '2025年11月（大学3年）',
     title: '技育展2025・技育CAMPキャラバン参加',
@@ -136,7 +154,7 @@ export const events: ProjectEvent[] = [
       { label: 'デモをプレイ', url: 'https://ikinoiiiseebi.github.io/TRI_ebifinal/' },
     ],
   },
-  {
+    {
     id: 'cosplay-2026',
     date: '2026年3月（大学3年）',
     title: 'コスプレイベント参加',
@@ -146,6 +164,19 @@ export const events: ProjectEvent[] = [
     description:
       'コスプレイベントに参加し、にじさんじのローレン・イロアスさんのコスプレを行いました。',
     links: [],
+  },
+  {
+    id: 'hackutz-2026',
+    date: '2026年3月（大学3年）',
+    title: 'ハックツハッカソン参加',
+    shortDesc: 'Wiibordでwifiの波に乗るゲーム。React + MediaPipe + 背景透過',
+    superchat: 'yellow',
+    tech: ['React', 'JavaScript', 'MediaPipe'],
+    description:
+      '株式会社ハックツが運営するハックツハッカソンに参加。\n3人でチームを組みました。\n\n【制作物】\nサーフィンのようにWiibord（サーフボード型コントローラー）でWifiの波を乗りこなしてポイントを稼ぐゲームを制作。\n\nReact・JavaScriptを使用し、MediaPipeによるポーズ認識・背景透過部分・ゲーム画面のUIを担当。\nゲーム内で指定されるポーズの管理や認識・ポーズをとった際のエフェクトやSEも作成しました。\n\n【工夫した点】\nMediaPipeの処理と背景透過の処理を同時に行うと処理が重くなるという問題がありました。\nポーズ用フックと背景透過用フックが同じ映像ストリームを共有する設計にすることで、Web APIを2回呼ばずに済み、軽量化に成功しました。',
+    links: [
+      { label: '詳細（Topaz）', url: 'https://topaz.dev/projects/86ad42c1abbda4327aa4' },
+    ],
   },
   {
     id: 'nijifes-2026',
