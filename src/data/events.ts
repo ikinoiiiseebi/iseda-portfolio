@@ -47,12 +47,16 @@ export const events: ProjectEvent[] = [
   {
     id: 'unreal-game-2024',
     date: '2024年10月（短大2年）',
-    title: 'Unreal Engineでゲーム制作',
-    shortDesc: '短大2年でUnreal Engineに挑戦してゲームを作成',
+    title: 'Unreal Engineで3Dジャンプアクションゲーム制作',
+    shortDesc: 'ステージの建築物やギミックを駆使して上を目指す3Dアクション。文化祭で展示',
     superchat: 'blue',
     tech: ['Unreal Engine', 'Blueprint'],
     description:
-      '短大2年生でUnreal Engineを使ったゲーム制作に挑戦しました。\n初めてのゲームエンジンで試行錯誤しながら作品を完成させました。',
+      '短大2年生でUnreal Engineを使った3Dジャンプアクションゲームを制作しました。\n\nステージの建築物やギミックを駆使しながら上へ登っていくゲームです。\n\n文化祭で展示し、様々な方にプレイしていただきました。',
+    images: [
+      '/images/unreal-game-2024-play.jpg',
+      '/images/unreal-game-2024-screen.jpg',
+    ],
     links: [
       { label: '動画を見る', url: 'https://youtu.be/y9qlUHBFtg8?si=R3eVeC8COuUGcZeK' },
     ],
