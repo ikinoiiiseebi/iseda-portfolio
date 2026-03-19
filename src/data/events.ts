@@ -79,13 +79,20 @@ export const events: ProjectEvent[] = [
     id: 'video-2025-03',
     date: '2025年3月（短大2年）',
     title: '動画編集・動画投稿',
-    shortDesc: '新チャンネルで動画編集・投稿再開',
+    shortDesc: 'どんな動画が最後まで見てもらえるか真剣に分析し、ショート動画を制作・投稿',
     superchat: 'none',
     tech: ['Adobe Premiere Pro', 'Adobe After Effects'],
     description:
-      '新しいYouTubeチャンネルで動画編集・投稿を再開しました。',
+      'どんなジャンルであれば動画が再生されるか、どんな形式であれば最後まで見てもらえるかを真剣に考えました。\n\nショート動画で継続的に再生数を伸ばしていた「琴葉ggr姉妹」様の動画構成を参考にし、運営者の「もっさん」様から直接許可をいただいて制作しました。\n\n1分程度の動画でも台本作成・イラスト制作・素材収集・機械音声の出力・字幕生成・効果音設定・素材配置など多くの工程があり、私の能力では1本あたり約10時間かかってしまい、2本の投稿のみとなりました。\n\nこの「動画作りの大変さを知る」という経験から、クリエイターを支えたいという思いが強くなりました。',
+    images: [
+      '/images/video-2025-03-channel.png',
+      '/images/video-2025-03-short.png',
+      '/images/video-2025-03-reference.png',
+      '/images/video-2025-03-permission.png',
+    ],
     links: [
       { label: 'YouTubeチャンネル', url: 'https://youtube.com/@ikinoiiiwakan?si=9hgWSXIGNpAYPWNB' },
+      { label: '琴乃葉ggr姉妹様のYouTubeチャンネル', url: 'https://www.youtube.com/@KOTONOHAggrSISTERS' },
     ],
   },
   {
