@@ -8,7 +8,7 @@ import './index.css';
 function useTheme() {
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('theme');
-    return saved ? saved === 'dark' : true; // デフォルトはダークモード
+    return saved ? saved === 'dark' : false; // デフォルトはライトモード
   });
 
   useEffect(() => {
