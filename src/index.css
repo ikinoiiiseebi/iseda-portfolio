@@ -1,16 +1,58 @@
 @import "tailwindcss";
 
+/* ===== テーマカラー変数 ===== */
+:root {
+  /* ライトモード */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --bg-tertiary: #f2f2f2;
+  --bg-input: #e8e8e8;
+  --text-primary: #0f0f0f;
+  --text-secondary: #606060;
+  --text-muted: #999999;
+  --border-color: #e0e0e0;
+  --card-bg: #efefef;
+  --card-header-bg: #e2e2e2;
+  --card-border: rgba(0, 0, 0, 0.12);
+  --interactive-bg: rgba(0, 0, 0, 0.05);
+  --interactive-hover: rgba(0, 0, 0, 0.10);
+  --interactive-border: rgba(0, 0, 0, 0.10);
+  --scrollbar-track: #f0f0f0;
+  --scrollbar-thumb: #cccccc;
+}
+
+html.dark {
+  /* ダークモード */
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #181818;
+  --bg-tertiary: #212121;
+  --bg-input: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-muted: #6b7280;
+  --border-color: #1f2937;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-header-bg: rgba(255, 255, 255, 0.10);
+  --card-border: rgba(255, 255, 255, 0.20);
+  --interactive-bg: rgba(255, 255, 255, 0.10);
+  --interactive-hover: rgba(255, 255, 255, 0.20);
+  --interactive-border: rgba(255, 255, 255, 0.10);
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #444444;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
   }
   body {
     margin: 0;
-    background-color: #0f0f0f;
-    color: #ffffff;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     font-family: 'Segoe UI', 'Noto Sans JP', sans-serif;
     overflow: hidden;
     height: 100vh;
+    transition: background-color 0.2s, color 0.2s;
   }
   #root {
     width: 100%;
@@ -23,10 +65,10 @@
   width: 4px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #444;
+  background: var(--scrollbar-thumb);
   border-radius: 2px;
 }
 .scrollbar-none::-webkit-scrollbar {
