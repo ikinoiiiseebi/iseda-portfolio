@@ -37,9 +37,12 @@ export const events: ProjectEvent[] = [
     title: 'Vアバター作成し、文化祭で公開',
     shortDesc: '短大入学後に新たなVアバターを試作',
     superchat: 'none',
-    tech: ['3DCG'],
+    tech: ['Live2D', 'OpenSeeFace'],
     description:
       '短大1年生のタイミングで新しいVアバターの試作を行いました。\n輪郭のないキャラクターデザインで作成しました。',
+    images: [
+      '/images/v-avatar-2024-tracking.JPG',
+    ],
     links: [
       { label: '動画を見る', url: 'https://youtu.be/cEnmhuKg3ls' },
     ],
@@ -55,7 +58,7 @@ export const events: ProjectEvent[] = [
       '短大2年生でUnreal Engineを使った3Dジャンプアクションゲームを制作しました。\n\nステージの建築物やギミックを駆使しながら上へ登っていくゲームです。\n\n文化祭で展示し、様々な方にプレイしていただきました。',
     images: [
       '/images/unreal-game-2024-play.jpg',
-      '/images/unreal-game-2024-screen.jpg',
+      '/images/unreal-game-2024-screen.png',
     ],
     links: [
       { label: '動画を見る', url: 'https://youtu.be/y9qlUHBFtg8?si=R3eVeC8COuUGcZeK' },
