@@ -66,12 +66,12 @@ const PUPIL_RADIUS = 4;
 function AvatarOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dir, setDir] = useState({ x: 0, y: 0 });
+  const [breathY, setBreathY] = useState(0);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      // 目のあるあたりを基準点にする（顔中心）
       const cx = rect.left + rect.width * 0.43;
       const cy = rect.top + rect.height * 0.26;
       const dx = e.clientX - cx;
@@ -84,11 +84,22 @@ function AvatarOverlay() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // 呼吸アニメーション（約3秒周期、振幅4px）
+  useEffect(() => {
+    let animId: number;
+    const animate = (time: number) => {
+      setBreathY(Math.sin(time / 500) * 5);
+      animId = requestAnimationFrame(animate);
+    };
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
   return (
     <div
       ref={containerRef}
       className="absolute bottom-0 pointer-events-none select-none"
-      style={{ width: '264px', height: '264px', right: '2rem' }}
+      style={{ width: '264px', height: '264px', right: '2rem', transform: `translateY(${breathY}px)` }}
     >
       {BASE_LAYERS.map((n) => (
         <img
