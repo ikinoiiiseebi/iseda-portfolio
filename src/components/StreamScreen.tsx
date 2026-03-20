@@ -52,14 +52,41 @@ function DefaultScreen() {
   );
 }
 
+const AVATAR_LAYERS = [1, 2, 3, 4, 5, 6];
+
+function AvatarOverlay() {
+  return (
+    <div
+      className="absolute bottom-0 right-0 pointer-events-none select-none"
+      style={{ width: '220px', height: '220px' }}
+    >
+      {AVATAR_LAYERS.map((n) => (
+        <img
+          key={n}
+          src={`/images/avatar/layer${n}.png`}
+          alt=""
+          className="absolute inset-0 w-full h-full object-contain"
+          style={{ zIndex: n }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function StreamScreen({ selected }: Props) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
-  if (!selected) return <DefaultScreen />;
+  if (!selected) return (
+    <div className="relative h-full">
+      <DefaultScreen />
+      <AvatarOverlay />
+    </div>
+  );
 
   const accent = superchatAccent[selected.superchat];
 
   return (
+    <div className="relative h-full">
     <div className="flex flex-col h-full overflow-y-auto scrollbar-thin px-6 py-5">
       {/* タグ / 日付 */}
       <div
@@ -190,6 +217,8 @@ export default function StreamScreen({ selected }: Props) {
           />
         </div>
       )}
+    </div>
+    <AvatarOverlay />
     </div>
   );
 }
