@@ -1,4 +1,13 @@
+import { useState } from 'react';
 import { type ProjectEvent } from '../data/events';
+
+function getYouTubeId(url: string): string | null {
+  const short = url.match(/youtu\.be\/([^?&]+)/);
+  if (short) return short[1];
+  const watch = url.match(/[?&]v=([^?&]+)/);
+  if (watch) return watch[1];
+  return null;
+}
 
 interface Props {
   selected: ProjectEvent | null;
@@ -44,6 +53,8 @@ function DefaultScreen() {
 }
 
 export default function StreamScreen({ selected }: Props) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
   if (!selected) return <DefaultScreen />;
 
   const accent = superchatAccent[selected.superchat];
@@ -69,6 +80,25 @@ export default function StreamScreen({ selected }: Props) {
         {selected.description}
       </p>
 
+      {/* 画像ギャラリー */}
+      {selected.images && selected.images.length > 0 && (
+        <div className="mb-4">
+          <p className="text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>スクリーンショット</p>
+          <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}>
+            {selected.images.map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt={`${selected.title} ${i + 1}`}
+                className="w-full rounded-lg object-cover cursor-pointer transition-opacity hover:opacity-80"
+                style={{ aspectRatio: '16/9', border: '1px solid var(--border-color)' }}
+                onClick={() => setLightboxSrc(src)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* 技術スタック */}
       {selected.tech.length > 0 && (
         <div className="mb-4">
@@ -83,25 +113,81 @@ export default function StreamScreen({ selected }: Props) {
 
       {/* リンク */}
       {selected.links && selected.links.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-auto pt-4">
-          {selected.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-colors"
-              style={{
-                backgroundColor: 'var(--interactive-bg)',
-                color: 'var(--text-primary)',
-                border: '1px solid var(--interactive-border)',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--interactive-hover)')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--interactive-bg)')}
-            >
-              🔗 {link.label}
-            </a>
-          ))}
+        <div className="mt-auto pt-4">
+          {/* YouTubeサムネイル */}
+          {selected.links.some((l) => getYouTubeId(l.url)) && (
+            <div className="grid gap-2 mb-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
+              {selected.links.filter((l) => getYouTubeId(l.url)).map((link) => {
+                const vid = getYouTubeId(link.url)!;
+                return (
+                  <a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative rounded-lg overflow-hidden group"
+                    style={{ border: '1px solid var(--border-color)' }}
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${vid}/hqdefault.jpg`}
+                      alt={link.label}
+                      className="w-full object-cover"
+                      style={{ aspectRatio: '16/9' }}
+                    />
+                    <div
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                    >
+                      <span className="text-white text-2xl">▶</span>
+                    </div>
+                    <div
+                      className="absolute bottom-0 left-0 right-0 px-2 py-1 text-xs text-white truncate"
+                      style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+                    >
+                      {link.label}
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+          {/* その他リンク */}
+          <div className="flex flex-wrap gap-2">
+            {selected.links.filter((l) => !getYouTubeId(l.url)).map((link) => (
+              <a
+                key={link.label}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-colors"
+                style={{
+                  backgroundColor: 'var(--interactive-bg)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--interactive-border)',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--interactive-hover)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--interactive-bg)')}
+              >
+                🔗 {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ライトボックス */}
+      {lightboxSrc && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: 'rgba(0,0,0,0.85)' }}
+          onClick={() => setLightboxSrc(null)}
+        >
+          <img
+            src={lightboxSrc}
+            alt="拡大表示"
+            className="max-w-full max-h-full rounded-lg object-contain"
+            style={{ boxShadow: '0 0 40px rgba(0,0,0,0.6)' }}
+          />
         </div>
       )}
     </div>
