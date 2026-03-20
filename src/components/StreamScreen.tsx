@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { type ProjectEvent } from '../data/events';
 
 function getYouTubeId(url: string): string | null {
@@ -52,15 +52,45 @@ function DefaultScreen() {
   );
 }
 
-const AVATAR_LAYERS = [1, 2, 3, 4, 5, 6];
+// layer4（黒目）をSVGで置き換え、それ以外を重ねる
+const BASE_LAYERS = [1, 2, 3, 5, 6];
+
+// 264px表示空間上での目の中心座標・最大移動量（調整可）
+const EYES = [
+  { x: 90, y: 133 },
+  { x: 136, y: 133 },
+];
+const MAX_PUPIL_MOVE = 5;
+const PUPIL_RADIUS = 4;
 
 function AvatarOverlay() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dir, setDir] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      // 目のあるあたりを基準点にする（顔中心）
+      const cx = rect.left + rect.width * 0.43;
+      const cy = rect.top + rect.height * 0.26;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist === 0) return;
+      setDir({ x: dx / dist, y: dy / dist });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <div
-      className="absolute bottom-0 right-0 pointer-events-none select-none"
-      style={{ width: '220px', height: '220px' }}
+      ref={containerRef}
+      className="absolute bottom-0 pointer-events-none select-none"
+      style={{ width: '264px', height: '264px', right: '2rem' }}
     >
-      {AVATAR_LAYERS.map((n) => (
+      {BASE_LAYERS.map((n) => (
         <img
           key={n}
           src={`/images/avatar/layer${n}.png`}
@@ -69,6 +99,22 @@ function AvatarOverlay() {
           style={{ zIndex: n }}
         />
       ))}
+      {/* 黒目：マウス方向に追従 */}
+      <svg
+        className="absolute inset-0 w-full h-full"
+        style={{ zIndex: 4 }}
+        viewBox="0 0 264 264"
+      >
+        {EYES.map((eye, i) => (
+          <circle
+            key={i}
+            cx={eye.x + dir.x * MAX_PUPIL_MOVE}
+            cy={eye.y + dir.y * MAX_PUPIL_MOVE}
+            r={PUPIL_RADIUS}
+            fill="#2a1a0a"
+          />
+        ))}
+      </svg>
     </div>
   );
 }
