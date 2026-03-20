@@ -122,7 +122,7 @@ function AvatarOverlay() {
         bottom: '-30px',
         width: '370px',
         height: '370px',
-        right: '2rem',
+        right: '-2rem',
         transform: `translateY(${breathY}px) rotate(${swayAngle}deg)`,
         transformOrigin: 'bottom center',
       }}
