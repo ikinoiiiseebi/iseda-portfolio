@@ -205,6 +205,9 @@ export const events: ProjectEvent[] = [
     shortDesc: 'ローレン・イロアスさんのコスプレ',
     superchat: 'none',
     tech: [],
+    images: [
+      '/images/cosplay-2026-1.jpg',
+    ],
     description:
       '佐賀市鹿嶋市で行われたコスプレイベントに参加しローレン・イロアスさんのコスプレを行いました。\n\nコスプレに向けてメイクの勉強や筋トレ・食事管理によるボディメイクを行いました。\nコスプレの完成度を高めるために筋トレを始め、学校のジムに平均週3回1年半以上通い続けています。また、糖質・脂質を避け、1日に摂取するタンパク質の量を管理して120g以上摂るようにしています。',
     links: [],
@@ -216,10 +219,15 @@ export const events: ProjectEvent[] = [
     shortDesc: 'Wiibordでwifiの波に乗るゲーム。React + MediaPipe + 背景透過',
     superchat: 'yellow',
     tech: ['React', 'JavaScript', 'MediaPipe'],
+    images: [
+      '/images/hackutz-2026-1.png',
+      '/images/hackutz-2026-2.png',
+    ],
     description:
       '株式会社ハックツが運営するハックツハッカソンに参加。\n3人でチームを組みました。\n\n【制作物】\nサーフィンのようにWiibord（サーフボード型コントローラー）でWifiの波を乗りこなしてポイントを稼ぐゲームを制作。\n\nReact・JavaScriptを使用し、MediaPipeによるポーズ認識・背景透過部分・ゲーム画面のUIを担当。\nゲーム内で指定されるポーズの管理や認識・ポーズをとった際のエフェクトやSEも作成しました。\n\n【工夫した点】\nMediaPipeの処理と背景透過の処理を同時に行うと処理が重くなるという問題がありました。\nポーズ用フックと背景透過用フックが同じ映像ストリームを共有する設計にすることで、Web APIを2回呼ばずに済み、軽量化に成功しました。',
     links: [
       { label: '詳細（Topaz）', url: 'https://topaz.dev/projects/86ad42c1abbda4327aa4' },
+      { label: 'GitHub', url: 'https://github.com/wasijyayo/Megaro_wave' },
     ],
   },
   {
@@ -229,6 +237,9 @@ export const events: ProjectEvent[] = [
     shortDesc: '5月17日（日）参加予定',
     superchat: 'blue',
     tech: [],
+    images: [
+      '/images/nijifes-2026-1.png',
+    ],
     description:
       'にじさんじフェス2026に参加予定です。\n5月17日（日）に参加します。',
     links: [],
