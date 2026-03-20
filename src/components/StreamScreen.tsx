@@ -57,10 +57,10 @@ const BASE_LAYERS = [1, 2, 3, 5, 6];
 
 // 264px表示空間上での目の中心座標・最大移動量（調整可）
 const EYES = [
-  { x: 90, y: 133 },
-  { x: 136, y: 133 },
+  { x: 126, y: 186 },
+  { x: 190, y: 186 },
 ];
-const MAX_PUPIL_MOVE = 5;
+const MAX_PUPIL_MOVE = 7;
 const PUPIL_RADIUS = 4;
 
 function AvatarOverlay() {
@@ -117,10 +117,11 @@ function AvatarOverlay() {
   return (
     <div
       ref={containerRef}
-      className="absolute bottom-0 pointer-events-none select-none"
+      className="absolute pointer-events-none select-none"
       style={{
-        width: '264px',
-        height: '264px',
+        bottom: '-30px',
+        width: '370px',
+        height: '370px',
         right: '2rem',
         transform: `translateY(${breathY}px) rotate(${swayAngle}deg)`,
         transformOrigin: 'bottom center',
@@ -139,7 +140,7 @@ function AvatarOverlay() {
       <svg
         className="absolute inset-0 w-full h-full"
         style={{ zIndex: 4 }}
-        viewBox="0 0 264 264"
+        viewBox="0 0 370 370"
       >
         {EYES.map((eye, i) => (
           <circle
