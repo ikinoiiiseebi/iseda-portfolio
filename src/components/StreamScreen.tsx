@@ -67,6 +67,8 @@ function AvatarOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dir, setDir] = useState({ x: 0, y: 0 });
   const [breathY, setBreathY] = useState(0);
+  const [swayAngle, setSwayAngle] = useState(0);
+  const swayRef = useRef({ current: 0, target: 0, speed: 0.01 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -84,11 +86,28 @@ function AvatarOverlay() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // 呼吸アニメーション（約3秒周期、振幅4px）
+  // 呼吸アニメーション
   useEffect(() => {
     let animId: number;
     const animate = (time: number) => {
-      setBreathY(Math.sin(time / 500) * 5);
+      setBreathY(Math.sin(time / 500) * 4);
+      animId = requestAnimationFrame(animate);
+    };
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  // ランダム左右揺れ（下部を軸に回転）
+  useEffect(() => {
+    let animId: number;
+    const animate = () => {
+      const s = swayRef.current;
+      s.current += (s.target - s.current) * s.speed;
+      if (Math.abs(s.target - s.current) < 0.05) {
+        s.target = (Math.random() - 0.5) * 12; // -3〜+3度
+        s.speed = 0.01 + Math.random() * 0.015;
+      }
+      setSwayAngle(s.current);
       animId = requestAnimationFrame(animate);
     };
     animId = requestAnimationFrame(animate);
@@ -99,7 +118,13 @@ function AvatarOverlay() {
     <div
       ref={containerRef}
       className="absolute bottom-0 pointer-events-none select-none"
-      style={{ width: '264px', height: '264px', right: '2rem', transform: `translateY(${breathY}px)` }}
+      style={{
+        width: '264px',
+        height: '264px',
+        right: '2rem',
+        transform: `translateY(${breathY}px) rotate(${swayAngle}deg)`,
+        transformOrigin: 'bottom center',
+      }}
     >
       {BASE_LAYERS.map((n) => (
         <img
