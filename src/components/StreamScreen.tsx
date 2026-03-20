@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { type ProjectEvent } from '../data/events';
 
 function getYouTubeId(url: string): string | null {
@@ -52,14 +52,124 @@ function DefaultScreen() {
   );
 }
 
+// layer4（黒目）をSVGで置き換え、それ以外を重ねる
+const BASE_LAYERS = [1, 2, 3, 5, 6];
+
+// 264px表示空間上での目の中心座標・最大移動量（調整可）
+const EYES = [
+  { x: 126, y: 186 },
+  { x: 190, y: 186 },
+];
+const MAX_PUPIL_MOVE = 7;
+const PUPIL_RADIUS = 4;
+
+function AvatarOverlay() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dir, setDir] = useState({ x: 0, y: 0 });
+  const [breathY, setBreathY] = useState(0);
+  const [swayAngle, setSwayAngle] = useState(0);
+  const swayRef = useRef({ current: 0, target: 0, speed: 0.01 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const cx = rect.left + rect.width * 0.43;
+      const cy = rect.top + rect.height * 0.26;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist === 0) return;
+      setDir({ x: dx / dist, y: dy / dist });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // 呼吸アニメーション
+  useEffect(() => {
+    let animId: number;
+    const animate = (time: number) => {
+      setBreathY(Math.sin(time / 500) * 4);
+      animId = requestAnimationFrame(animate);
+    };
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  // ランダム左右揺れ（下部を軸に回転）
+  useEffect(() => {
+    let animId: number;
+    const animate = () => {
+      const s = swayRef.current;
+      s.current += (s.target - s.current) * s.speed;
+      if (Math.abs(s.target - s.current) < 0.05) {
+        s.target = (Math.random() - 0.5) * 12; // -3〜+3度
+        s.speed = 0.01 + Math.random() * 0.015;
+      }
+      setSwayAngle(s.current);
+      animId = requestAnimationFrame(animate);
+    };
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="absolute pointer-events-none select-none"
+      style={{
+        bottom: '-30px',
+        width: '370px',
+        height: '370px',
+        right: '2rem',
+        transform: `translateY(${breathY}px) rotate(${swayAngle}deg)`,
+        transformOrigin: 'bottom center',
+      }}
+    >
+      {BASE_LAYERS.map((n) => (
+        <img
+          key={n}
+          src={`/images/avatar/layer${n}.png`}
+          alt=""
+          className="absolute inset-0 w-full h-full object-contain"
+          style={{ zIndex: n }}
+        />
+      ))}
+      {/* 黒目：マウス方向に追従 */}
+      <svg
+        className="absolute inset-0 w-full h-full"
+        style={{ zIndex: 4 }}
+        viewBox="0 0 370 370"
+      >
+        {EYES.map((eye, i) => (
+          <circle
+            key={i}
+            cx={eye.x + dir.x * MAX_PUPIL_MOVE}
+            cy={eye.y + dir.y * MAX_PUPIL_MOVE}
+            r={PUPIL_RADIUS}
+            fill="#2a1a0a"
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 export default function StreamScreen({ selected }: Props) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
-  if (!selected) return <DefaultScreen />;
+  if (!selected) return (
+    <div className="relative h-full">
+      <DefaultScreen />
+      <AvatarOverlay />
+    </div>
+  );
 
   const accent = superchatAccent[selected.superchat];
 
   return (
+    <div className="relative h-full">
     <div className="flex flex-col h-full overflow-y-auto scrollbar-thin px-6 py-5">
       {/* タグ / 日付 */}
       <div
@@ -190,6 +300,8 @@ export default function StreamScreen({ selected }: Props) {
           />
         </div>
       )}
+    </div>
+    <AvatarOverlay />
     </div>
   );
 }
