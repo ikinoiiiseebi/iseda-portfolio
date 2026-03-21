@@ -20,7 +20,35 @@ function useTheme() {
   return { dark, toggle: () => setDark((d) => !d) };
 }
 
+function useAvatarFavicon() {
+  useEffect(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const layerNums = [1, 2, 3, 5, 6];
+    let loaded = 0;
+    const imgs: HTMLImageElement[] = layerNums.map(() => new Image());
+    imgs.forEach((img, i) => {
+      img.onload = () => {
+        loaded++;
+        if (loaded === layerNums.length) {
+          imgs.forEach((image) => ctx.drawImage(image, 0, 0, 64, 64));
+          const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]') ?? document.createElement('link');
+          link.rel = 'icon';
+          link.type = 'image/png';
+          link.href = canvas.toDataURL('image/png');
+          document.head.appendChild(link);
+        }
+      };
+      img.src = `/images/avatar/layer${layerNums[i]}.png`;
+    });
+  }, []);
+}
+
 export default function App() {
+  useAvatarFavicon();
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<ProjectEvent | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
