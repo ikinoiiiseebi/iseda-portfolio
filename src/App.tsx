@@ -64,7 +64,7 @@ export default function App() {
                 color: 'var(--text-secondary)',
               }}
             >
-              伊勢田然のポートフォリオサイト
+              伊勢田然  ポートフォリオサイト
             </div>
             <div
               className="flex items-center justify-center w-16 h-10 rounded-r-full flex-shrink-0"
@@ -104,6 +104,13 @@ export default function App() {
           }}
         >
           <StreamScreen selected={selected} />
+        </div>
+
+        {/* 配信タイトル */}
+        <div className="px-1 flex-shrink-0">
+          <h1 className="font-bold text-lg leading-snug" style={{ color: 'var(--text-primary)' }}>
+            【就活】伊勢田然のポートフォリオサイト
+          </h1>
         </div>
 
         {/* プロフィールバー（枠なし） */}
