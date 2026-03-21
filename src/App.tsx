@@ -3,6 +3,7 @@ import { events, type ProjectEvent } from './data/events';
 import StreamScreen from './components/StreamScreen';
 import ChatTimeline from './components/ChatTimeline';
 import ProfileBar from './components/ProfileBar';
+import LoadingScreen from './components/LoadingScreen';
 import './index.css';
 
 function useTheme() {
@@ -20,11 +21,14 @@ function useTheme() {
 }
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<ProjectEvent | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const { dark, toggle } = useTheme();
 
   return (
+    <>
+    {loading && <LoadingScreen onDone={() => setLoading(false)} />}
     <div className="flex h-screen w-screen overflow-hidden p-3 gap-3" style={{ backgroundColor: 'var(--bg-primary)' }}>
 
       {/* ===== 左カラム: タイトルバー・配信画面・プロフィールバー ===== */}
@@ -154,5 +158,6 @@ export default function App() {
       </div>
 
     </div>
+    </>
   );
 }

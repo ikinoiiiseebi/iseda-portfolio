@@ -124,3 +124,7 @@ html.dark {
 .live-blip {
   animation: liveBlip 1.5s ease-in-out infinite;
 }
+
+@keyframes loading-gradient {
+  to { background-position: 200% center; }
+}
