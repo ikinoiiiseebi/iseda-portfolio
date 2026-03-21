@@ -108,7 +108,7 @@ export default function ChatTimeline({ events, selectedId, onSelect }: Props) {
     <div className="flex flex-col h-full" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* ヘッダー */}
       <div
-        className="flex items-center gap-2 px-3 py-2 border-b"
+        className="flex items-center gap-2 px-3 h-14 border-b"
         style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)' }}
       >
         <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>チャット</span>
