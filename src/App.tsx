@@ -21,6 +21,7 @@ function useTheme() {
 
 export default function App() {
   const [selected, setSelected] = useState<ProjectEvent | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { dark, toggle } = useTheme();
 
   return (
@@ -34,16 +35,35 @@ export default function App() {
           className="flex items-center gap-3 px-3 h-14 flex-shrink-0"
         >
           {/* ハンバーガーメニュー */}
-          <button
-            className="flex flex-col justify-center gap-[5px] w-10 h-10 rounded-full flex-shrink-0 transition-colors"
-            style={{ color: 'var(--text-primary)' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'var(--interactive-hover)')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
-          >
-            <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
-            <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
-            <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
-          </button>
+          <div className="relative flex-shrink-0">
+            <button
+              onClick={() => setMenuOpen(v => !v)}
+              className="flex flex-col justify-center gap-[5px] w-10 h-10 rounded-full transition-colors"
+              style={{ color: 'var(--text-primary)' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'var(--interactive-hover)')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+            >
+              <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
+              <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
+              <span className="block w-5 h-0.5 mx-auto" style={{ backgroundColor: 'currentColor' }} />
+            </button>
+            {menuOpen && (
+              <div
+                className="absolute top-full left-0 mt-1 rounded-xl shadow-lg z-50 overflow-hidden"
+                style={{ backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)', minWidth: '160px' }}
+              >
+                <button
+                  onClick={() => { setSelected(null); setMenuOpen(false); }}
+                  className="w-full text-left text-sm px-4 py-2.5 transition-colors"
+                  style={{ color: 'var(--text-primary)' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'var(--interactive-hover)')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  プロフィールに戻る
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* ロゴ */}
           <div className="flex items-center gap-1 flex-shrink-0">

@@ -29,7 +29,9 @@ async function fetchLikeCount(): Promise<number> {
     );
     if (!res.ok) throw new Error();
     const data = await res.json();
-    return data.count ?? 0;
+    const count = data.count ?? 0;
+    localStorage.setItem('like_count', String(count));
+    return count;
   } catch {
     return parseInt(localStorage.getItem('like_count') || '0', 10);
   }
@@ -42,9 +44,28 @@ async function incrementLikeCount(): Promise<number> {
     );
     if (!res.ok) throw new Error();
     const data = await res.json();
-    return data.count ?? 0;
+    const count = data.count ?? 0;
+    localStorage.setItem('like_count', String(count));
+    return count;
   } catch {
     const next = parseInt(localStorage.getItem('like_count') || '0', 10) + 1;
+    localStorage.setItem('like_count', String(next));
+    return next;
+  }
+}
+
+async function decrementLikeCount(): Promise<number> {
+  try {
+    const res = await fetch(
+      `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/likes/down`
+    );
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const count = data.count ?? 0;
+    localStorage.setItem('like_count', String(count));
+    return count;
+  } catch {
+    const next = Math.max(0, parseInt(localStorage.getItem('like_count') || '0', 10) - 1);
     localStorage.setItem('like_count', String(next));
     return next;
   }
@@ -53,7 +74,7 @@ async function incrementLikeCount(): Promise<number> {
 export default function ProfileBar() {
   const [visitCount, setVisitCount] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number | null>(null);
-  const [liked, setLiked] = useState(() => localStorage.getItem('liked') === 'true');
+  const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(() => localStorage.getItem('bookmarked') === 'true');
   const [showTech, setShowTech] = useState(false);
   const techBtnRef = useRef<HTMLButtonElement>(null);
@@ -67,17 +88,27 @@ export default function ProfileBar() {
   }, []);
 
   const handleLike = async () => {
-    if (liked) return;
-    setLiked(true);
-    localStorage.setItem('liked', 'true');
-    const count = await incrementLikeCount();
-    setLikeCount(count);
+    if (liked) {
+      setLiked(false);
+      const count = await decrementLikeCount();
+      setLikeCount(count);
+    } else {
+      setLiked(true);
+      const count = await incrementLikeCount();
+      setLikeCount(count);
+    }
   };
+
+  const [showBookmarkTip, setShowBookmarkTip] = useState(false);
 
   const handleBookmark = () => {
     const next = !bookmarked;
     setBookmarked(next);
     localStorage.setItem('bookmarked', String(next));
+    if (next) {
+      setShowBookmarkTip(true);
+      setTimeout(() => setShowBookmarkTip(false), 3000);
+    }
   };
 
   // 外側クリックで閉じる
@@ -122,18 +153,32 @@ export default function ProfileBar() {
         </div>
 
         {/* ブックマーク登録ボタン */}
-        <button
-          onClick={handleBookmark}
-          className="flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-semibold transition-colors flex-shrink-0"
-          style={{
-            backgroundColor: 'var(--text-primary)',
-            color: 'var(--bg-primary)',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-        >
-          {bookmarked ? '登録済み' : 'ブックマーク登録'}
-        </button>
+        <div className="relative flex-shrink-0 ml-2">
+          <button
+            onClick={handleBookmark}
+            className="flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-semibold transition-colors"
+            style={{
+              backgroundColor: 'var(--text-primary)',
+              color: 'var(--bg-primary)',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
+            {bookmarked ? '登録済み' : 'ブックマーク登録'}
+          </button>
+          {showBookmarkTip && (
+            <div
+              className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px] px-3 py-1.5 rounded-lg shadow-lg z-50"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-color)',
+              }}
+            >
+              Ctrl+D（Mac: ⌘+D）でブックマーク登録できます
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 高評価ボタン */}

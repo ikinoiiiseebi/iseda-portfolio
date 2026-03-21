@@ -54,8 +54,7 @@ function ChatMessage({
         onClick={onClick}
       >
         <div className={`${styles.headerBg} px-3 py-1.5 flex items-center justify-between`}>
-          <span className="text-xs font-bold text-white">📦 {event.date}</span>
-          <span className={`text-xs font-semibold ${styles.textSub}`}>{styles.badge}</span>
+          <span className="text-xs font-bold text-white">@ {event.date}</span>
         </div>
         <div className={`${styles.bg} px-3 py-2`}>
           <p className="text-sm font-bold text-white leading-snug">{event.title}</p>
@@ -76,7 +75,7 @@ function ChatMessage({
       onClick={onClick}
     >
       <div className="px-3 py-1.5 flex items-center justify-between" style={{ backgroundColor: 'var(--card-header-bg)' }}>
-        <span className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>📦 {event.date}</span>
+        <span className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>@ {event.date}</span>
       </div>
       <div className="px-3 py-2" style={{ backgroundColor: 'var(--card-bg)' }}>
         <p className="text-sm font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>{event.title}</p>

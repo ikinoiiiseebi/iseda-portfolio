@@ -33,21 +33,62 @@ function TechBadge({ tech }: { tech: string }) {
 
 function DefaultScreen() {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center select-none">
-      <div className="relative mb-6">
-        <div
-          className="w-24 h-24 rounded-full bg-gradient-to-br from-red-600/30 to-purple-600/30 flex items-center justify-center"
-          style={{ border: '1px solid var(--card-border)' }}
-        >
-          <span className="text-4xl">📡</span>
-        </div>
-        <div className="absolute -top-1 -right-1 flex items-center gap-1 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-          <span className="live-blip inline-block w-1.5 h-1.5 bg-white rounded-full" />
-          LIVE
-        </div>
+    <div className="h-full overflow-y-auto scrollbar-thin">
+      {/* グラデーションヘッダー */}
+      <div
+        className="px-8 py-5 flex-shrink-0"
+        style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 45%, #facc15 80%, #eab308 100%)' }}
+      >
+        <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">Profile</p>
+        <h1 className="text-xl font-bold text-white">伊勢田然</h1>
+        <p className="text-sm text-white/80 mt-0.5">福岡工業大学 情報工学部 情報工学科</p>
       </div>
-      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>チャット欄のイベントを選択してください</p>
-      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>制作物の詳細がここに表示されます</p>
+
+      <div className="px-8 py-6 space-y-6">
+        {/* 基本情報 */}
+        <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <span>🎓 情報技術研究部</span>
+          <span>✉️ ikinoiiiseebi@gmail.com</span>
+        </div>
+
+        {/* エンジニア活動 */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-block w-1 h-4 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #3b82f6, #facc15)' }} />
+            <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>エンジニア活動</span>
+          </div>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            ハッカソンへの参加やハッカソンの開催を主な活動としている情報技術研究部に所属し、個人・チーム合わせて7回以上ハッカソンに参加しました。
+          </p>
+        </div>
+
+        {/* エンジニア活動以外の創作 */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-block w-1 h-4 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #3b82f6, #facc15)' }} />
+            <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>創作活動</span>
+          </div>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            動画編集・投稿、Live2Dを用いたアバターの作成、アニメーションの作成、コスプレ、デッサン、油絵、高校生の時に軽音部に所属していたため、作詞・作曲など幅広い創作の経験があります。
+          </p>
+        </div>
+
+        {/* 将来像 */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-block w-1 h-4 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #3b82f6, #facc15)' }} />
+            <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>将来像</span>
+          </div>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            幅広い創作の経験をしてきたからこそ「表現したい」「共感したい」という思いから生まれた『個人の表現を、他者との共感によって意味あるものに変え、人と人をつなぐ』というエンタメコンテンツの価値を理解しており、「エンタメ文化を造る一員になりたい」と考えるようになりました。
+          </p>
+        </div>
+
+        {/* ヒント */}
+        <p className="text-xs pt-2 border-t" style={{ color: 'var(--text-muted)', borderColor: 'var(--border-color)' }}>
+          右のチャット欄から活動内容を選択すると詳細が表示されます
+        </p>
+      </div>
     </div>
   );
 }
@@ -66,6 +107,7 @@ const PUPIL_RADIUS = 4;
 function AvatarOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dir, setDir] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
   const [breathY, setBreathY] = useState(0);
   const [swayAngle, setSwayAngle] = useState(0);
   const swayRef = useRef({ current: 0, target: 0, speed: 0.01 });
@@ -117,7 +159,9 @@ function AvatarOverlay() {
   return (
     <div
       ref={containerRef}
-      className="absolute pointer-events-none select-none"
+      className="absolute select-none"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         bottom: '-30px',
         width: '370px',
@@ -125,6 +169,9 @@ function AvatarOverlay() {
         right: '-2rem',
         transform: `translateY(${breathY}px) rotate(${swayAngle}deg)`,
         transformOrigin: 'bottom center',
+        opacity: hovered ? 0.15 : 1,
+        transition: 'opacity 0.3s ease',
+        cursor: 'default',
       }}
     >
       {BASE_LAYERS.map((n) => (
@@ -156,6 +203,15 @@ function AvatarOverlay() {
   );
 }
 
+function SectionLabel({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-2">
+      <span className="inline-block w-1 h-4 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #3b82f6, #facc15)' }} />
+      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{label}</span>
+    </div>
+  );
+}
+
 export default function StreamScreen({ selected }: Props) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
@@ -176,7 +232,7 @@ export default function StreamScreen({ selected }: Props) {
         className="flex items-center gap-2 mb-3 text-xs font-semibold border-b pb-3"
         style={{ color: accent.text, borderColor: accent.border }}
       >
-        <span>📦 制作物</span>
+        <span>活動内容</span>
         <span className="ml-auto" style={{ color: 'var(--text-muted)' }}>{selected.date}</span>
       </div>
 
@@ -193,8 +249,8 @@ export default function StreamScreen({ selected }: Props) {
       {/* 画像ギャラリー */}
       {selected.images && selected.images.length > 0 && (
         <div className="mb-4">
-          <p className="text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>スクリーンショット</p>
-          <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}>
+          <SectionLabel label="スクリーンショット" />
+          <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
             {selected.images.map((src, i) => (
               <img
                 key={i}
@@ -212,7 +268,7 @@ export default function StreamScreen({ selected }: Props) {
       {/* 技術スタック */}
       {selected.tech.length > 0 && (
         <div className="mb-4">
-          <p className="text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>使用技術</p>
+          <SectionLabel label="使用技術" />
           <div>
             {selected.tech.map((t) => (
               <TechBadge key={t} tech={t} />
@@ -226,7 +282,7 @@ export default function StreamScreen({ selected }: Props) {
         <div className="mt-auto pt-4">
           {/* YouTubeサムネイル */}
           {selected.links.some((l) => getYouTubeId(l.url)) && (
-            <div className="grid gap-2 mb-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
+            <div className="grid gap-2 mb-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
               {selected.links.filter((l) => getYouTubeId(l.url)).map((link) => {
                 const vid = getYouTubeId(link.url)!;
                 return (
@@ -269,7 +325,7 @@ export default function StreamScreen({ selected }: Props) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-medium px-5 py-2 rounded-full transition-colors"
                 style={{
                   backgroundColor: 'var(--interactive-bg)',
                   color: 'var(--text-primary)',
