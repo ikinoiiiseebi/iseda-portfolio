@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# 伊勢田然 ポートフォリオサイト
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+YouTubeライブ配信UIをモチーフにしたポートフォリオサイトです。
 
-Currently, two official plugins are available:
+🔗 **URL**: https://iseda-portfolio.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 概要
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+チャット欄に並ぶ活動タイムラインからイベントを選択すると、配信画面エリアに詳細が表示される構成になっています。スーパーチャット（赤・黄・青）で活動の重要度を表現しています。
 
-## Expanding the ESLint configuration
+## 機能
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 活動タイムライン（チャット欄）からイベントを選択して詳細表示
+- スーパーチャット風カードで活動の重要度を視覚化
+- ライトモード / ダークモード切り替え
+- アバターの目がマウスを追従・呼吸・揺れアニメーション
+- 訪問者カウンター・高評価ボタン（counterapi.dev による永続化）
+- 画像ライトボックス表示
+- YouTube動画サムネイルプレビュー
+- ローディング画面（アバターの目がぐるぐる回転）
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 技術スタック
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| カテゴリ | 技術 |
+|---|---|
+| フレームワーク | React 19 + TypeScript |
+| ビルドツール | Vite |
+| スタイリング | Tailwind CSS v4 |
+| ホスティング | Vercel |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ローカル起動
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ビルド & デプロイ
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npx vercel --prod --yes
 ```
