@@ -238,7 +238,7 @@ export const events: ProjectEvent[] = [
     date: '2026年5月（大学4年）',
     title: 'にじさんじフェス2026（参加予定）',
     shortDesc: '5月17日（日）参加予定',
-    superchat: 'blue',
+    superchat: 'none',
     tech: [],
     images: [
       '/images/nijifes-2026-1.png',

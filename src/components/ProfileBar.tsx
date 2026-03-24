@@ -9,11 +9,11 @@ const COUNTER_KEY = 'visitors';
 async function fetchAndIncrementCount(): Promise<number> {
   try {
     const res = await fetch(
-      `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/${COUNTER_KEY}/up`
+      `https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`
     );
     if (!res.ok) throw new Error('Counter API error');
     const data = await res.json();
-    return data.count ?? 0;
+    return data.value ?? 0;
   } catch {
     const stored = parseInt(localStorage.getItem('visit_count') || '0', 10);
     const next = stored + 1;
@@ -25,11 +25,11 @@ async function fetchAndIncrementCount(): Promise<number> {
 async function fetchLikeCount(): Promise<number> {
   try {
     const res = await fetch(
-      `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/likes/get`
+      `https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/likes`
     );
     if (!res.ok) throw new Error();
     const data = await res.json();
-    const count = data.count ?? 0;
+    const count = data.value ?? 0;
     localStorage.setItem('like_count', String(count));
     return count;
   } catch {
@@ -40,11 +40,11 @@ async function fetchLikeCount(): Promise<number> {
 async function incrementLikeCount(): Promise<number> {
   try {
     const res = await fetch(
-      `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/likes/up`
+      `https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/likes`
     );
     if (!res.ok) throw new Error();
     const data = await res.json();
-    const count = data.count ?? 0;
+    const count = data.value ?? 0;
     localStorage.setItem('like_count', String(count));
     return count;
   } catch {
@@ -57,11 +57,11 @@ async function incrementLikeCount(): Promise<number> {
 async function decrementLikeCount(): Promise<number> {
   try {
     const res = await fetch(
-      `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/likes/down`
+      `https://api.countapi.xyz/update/${COUNTER_NAMESPACE}/likes?amount=-1`
     );
     if (!res.ok) throw new Error();
     const data = await res.json();
-    const count = data.count ?? 0;
+    const count = data.value ?? 0;
     localStorage.setItem('like_count', String(count));
     return count;
   } catch {
@@ -198,7 +198,7 @@ export default function ProfileBar() {
           <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z" />
           <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
         </svg>
-        {likeCount === null ? '---' : likeCount.toLocaleString()}
+        {likeCount === null ? '-' : likeCount.toLocaleString()}
       </button>
 
       {/* 技術スタックボタン + ポップアップ */}
