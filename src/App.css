@@ -8,7 +8,7 @@
   transition: border-color 0.3s;
   margin-bottom: 24px;
 
-  &:hover {
+  &:hover {  /* カーソルを要素に乗せたとき */
     border-color: var(--accent-border);
   }
   &:focus-visible {

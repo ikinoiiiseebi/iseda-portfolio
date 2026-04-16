@@ -18,7 +18,7 @@ export const events: ProjectEvent[] = [
     date: '2022年2月（高校2年）',
     title: 'Vアバター作成・動画編集・動画投稿',
     shortDesc: 'Vtuber活動スタート。アバター・編集・投稿まで一人で',
-    superchat: 'blue',
+    superchat: 'none',
     tech: ['Live2D', 'Adobe Premiere Pro'],
     description:
       '高校2年生のときにVアバターをLive2D Cubismで自作し、動画編集・投稿までを一人でこなしました。\nここからクリエイティブな制作活動が始まります。',
