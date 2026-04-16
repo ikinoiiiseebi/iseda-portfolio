@@ -234,6 +234,21 @@ export const events: ProjectEvent[] = [
     ],
   },
   {
+    id: 'portfolio-2026',
+    date: '2026年3月（大学3年）',
+    title: 'このポートフォリオサイトを開発',
+    shortDesc: 'YouTube配信風UIのポートフォリオ。React + Vite + Tailwind CSS v4',
+    superchat: 'blue',
+    tech: ['React', 'TypeScript', 'Vite', 'Tailwind CSS v4'],
+    description:
+      '【なぜ作ったか】\n就職活動に向けてポートフォリオサイトを作成するにあたり、「他の人と同じ見た目にはしたくない」という思いがありました。\nVtuber活動や配信視聴の経験から着想を得て、YouTube配信風のUIを採用することにしました。\n\n【開発期間】\n2026年3月19日〜3月24日の約1週間。\n\n【技術的に難しかったこと・解決策】\n① アバターの目がマウスを追うアニメーション\nアバターは6枚のレイヤー画像を重ねて構成しています。黒目だけを動かすために、layer4（黒目レイヤー）をSVGに差し替え、マウス座標から方向ベクトルを計算して黒目の位置をオフセットする実装にしました。\n\n② 呼吸・左右揺れアニメーション\n呼吸（上下）と揺れ（左右）の2つのアニメーションをそれぞれ独立したrequestAnimationFrameループで管理しました。揺れはランダムなターゲット角度に向けてイージングで近づいていく実装で、自然な動きを表現しました。\n\n③ Tailwind CSS v4への対応\nv4はv3とAPIが大きく変わっており（設定ファイルの廃止・CSSファースト設定など）、ドキュメントを読み込みながら対応しました。\n\n【担当箇所（個人開発のため全て）】\n・UIデザイン・レイアウト設計\n・チャット欄タイムラインのスクロールアニメーション\n・配信画面の詳細表示（画像ギャラリー・YouTube埋め込みサムネイル）\n・アバターの目追従・呼吸・揺れアニメーション\n・ライト/ダークモード切替\n・訪問者カウンター（counterapi.dev + localStorageフォールバック）\n・Vercelへのデプロイ',
+    images: [],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/ikinoiiiseebi/iseda-portfolio' },
+      { label: 'このサイト', url: 'https://isedazen-portfolio.vercel.app/' },
+    ],
+  },
+  {
     id: 'nijifes-2026',
     date: '2026年5月（大学4年）',
     title: 'にじさんじフェス2026（参加予定）',
